@@ -12,8 +12,8 @@ numSessions = 3;
 nratings = 2;
 
 %flags
-compute = 1;
-save_measures = 1;
+compute = 0;
+save_measures = 0;
 
 % Add helper functions
 root = pwd;
@@ -33,19 +33,19 @@ if compute == 1
         totalTrials = 0;
         for session = 1:numSessions
             load(['results_sub',num2str(subject_id(subject)),'_s',num2str(session),'.mat'])
-            [m,n] = size(params.data);
+            [m,n] = size(p.data);
             numBlocks = m*n;
             main_blocks = [1:numBlocks];
-            block_length = length(params.data{1,1}.stim);
+            block_length = length(p.data{1,1}.stim);
             
             for block=1:length(main_blocks)
                 trials = totalTrials + [1:block_length];
                 totalTrials = totalTrials + block_length;
-                stim(trials) = params.data{main_blocks(block)}.stim-1; %1: left, 2: right
-                resp(trials) = params.data{main_blocks(block)}.answer-1;%1: left, 2: right
-                correct(trials) = params.data{main_blocks(block)}.correct; %0: error, 1: correct
-                conf_cont(trials) = params.data{main_blocks(block)}.conf; %0.5 to 1
-                contrast(trials) = params.data{main_blocks(block)}.contrast; %1-3
+                stim(trials) = p.data{main_blocks(block)}.stim-1; %1: left, 2: right
+                resp(trials) = p.data{main_blocks(block)}.answer-1;%1: left, 2: right
+                correct(trials) = p.data{main_blocks(block)}.correct; %0: error, 1: correct
+                conf_cont(trials) = p.data{main_blocks(block)}.conf; %0.5 to 1
+                contrast(trials) = p.data{main_blocks(block)}.contrast; %1-3
                 sessionID(trials) = session;
             end
         end
